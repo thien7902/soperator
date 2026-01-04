@@ -80,10 +80,10 @@ func BasePodTemplateSpec(
 			PriorityClassName: accounting.PriorityClass,
 			InitContainers: append(
 				accounting.CustomInitContainers,
-				common.RenderContainerMunge(&accounting.ContainerMunge),
 			),
 			Containers: []corev1.Container{
 				renderContainerAccounting(accounting.ContainerAccounting, additionalVolumeMounts),
+				common.RenderContainerMunge(&accounting.ContainerMunge),
 			},
 			Volumes: volumes,
 		},

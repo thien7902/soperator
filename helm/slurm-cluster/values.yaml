@@ -1,4 +1,4 @@
-clusterName: "slurm1"
+clusterName: "fpt-hpc"
 # Additional annotations for the cluster
 annotations: {}
 # Add appArmor profile to the cluster
@@ -51,10 +51,10 @@ k8sNodeFilters:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: "nebius.com/node-group-id"
+                - key: "worker.fptcloud/type"
                   operator: In
                   values:
-                    - "node-group-id-here"
+                    - "gpu"
     tolerations:
       - key: nvidia.com/gpu
         operator: Exists
@@ -65,10 +65,20 @@ k8sNodeFilters:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: "nebius.com/node-group-id"
+                - key: "worker.fptcloud/type"
                   operator: In
                   values:
-                    - "node-group-id-here"
+                    - "gpu"
+  - name: system
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: "worker.fptcloud/type"
+                  operator: In
+                  values:
+                    - "gpu"
 # Sources for the volumes used in Slurm node specifications
 # You can use existing pvc or create via helm if `createPVC: true`
 volumeSources:
@@ -115,7 +125,7 @@ populateJail:
   jailSnapshotVolume: null
   #  jailSnapshotVolume:
   #    volumeSourceName: "jail-snapshot"
-  overwrite: false
+  overwrite: true
 slurmConfig:
   defMemPerNode: 1048576
   defCpuPerGPU: 4
@@ -312,7 +322,7 @@ slurmNodes:
         volumeSourceName: "jail"
       customMounts: []
   worker:
-    size: 2
+    size: 1
     maxUnavailable: "20%"
     k8sNodeFilterName: "gpu"
     cgroupVersion: v2
@@ -329,10 +339,10 @@ slurmNodes:
       command: []
       args: []
       resources:
-        cpu: "156000m"
-        memory: "1220Gi"
-        ephemeralStorage: "55Gi"
-        gpu: 8
+        cpu: "1000m"
+        memory: "36Gi"
+        ephemeralStorage: "5Gi"
+        gpu: 1
       securityLimitsConfig: ""
     munge:
       imagePullPolicy: "IfNotPresent"
@@ -368,7 +378,7 @@ slurmNodes:
       #     volumeSourceName: "slurm-prolog"
       sharedMemorySize: "64Gi"
   login:
-    size: 2
+    size: 0
     k8sNodeFilterName: "no-gpu"
     sshd:
       imagePullPolicy: "IfNotPresent"

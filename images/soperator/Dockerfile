@@ -1,5 +1,3 @@
-# syntax=docker.io/docker/dockerfile-upstream:1.20.0
-
 ARG TARGETARCH
 
 FROM go-base AS operator_builder

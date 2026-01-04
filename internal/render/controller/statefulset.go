@@ -38,7 +38,7 @@ func RenderStatefulSet(
 		controller.K8sNodeFilterName,
 		func(f slurmv1.K8sNodeFilter) string { return f.Name },
 	)
-
+	fmt.Print("hello i am shieo tokuda")
 	volumes, pvcTemplateSpecs, err := renderVolumesAndClaimTemplateSpecs(
 		clusterName, volumeSources, controller)
 	if err != nil {
@@ -103,10 +103,10 @@ func RenderStatefulSet(
 					Tolerations:  nodeFilter.Tolerations,
 					InitContainers: append(
 						controller.CustomInitContainers,
-						common.RenderContainerMunge(&controller.ContainerMunge),
 					),
 					Containers: []corev1.Container{
 						renderContainerSlurmctld(&controller.ContainerSlurmctld, controller.CustomVolumeMounts),
+						common.RenderContainerMunge(&controller.ContainerMunge),
 					},
 					Volumes:                       volumes,
 					RestartPolicy:                 corev1.RestartPolicyAlways,

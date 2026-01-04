@@ -90,10 +90,10 @@ func RenderStatefulSet(
 					Tolerations:  nodeFilter.Tolerations,
 					InitContainers: append(
 						login.CustomInitContainers,
-						common.RenderContainerMunge(&login.ContainerMunge),
 					),
 					Containers: []corev1.Container{
 						renderContainerSshd(clusterType, &login.ContainerSshd, login.JailSubMounts, login.CustomVolumeMounts),
+						common.RenderContainerMunge(&login.ContainerMunge),
 					},
 					Volumes:   volumes,
 					DNSPolicy: corev1.DNSClusterFirst,

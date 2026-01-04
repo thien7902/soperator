@@ -49,9 +49,7 @@ func RenderStatefulSet(
 	}
 
 	// Since 1.29 is native sidecar support, we can use the native restart policy
-	initContainers := []corev1.Container{
-		common.RenderContainerMunge(&worker.ContainerMunge), RenderContainerWaitForController(&worker.ContainerSlurmd),
-	}
+	initContainers := []corev1.Container{}
 
 	initContainers = append(initContainers, worker.CustomInitContainers...)
 
@@ -89,6 +87,8 @@ func RenderStatefulSet(
 		InitContainers:     initContainers,
 		Containers: []corev1.Container{
 			slurmdContainer,
+			common.RenderContainerMunge(&worker.ContainerMunge),
+			RenderContainerWaitForController(&worker.ContainerSlurmd),
 		},
 		Volumes:   volumes,
 		DNSPolicy: corev1.DNSClusterFirst,

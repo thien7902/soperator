@@ -30,14 +30,11 @@ func RenderContainerMunge(container *values.Container, opts ...RenderOption) cor
 	}
 
 	// Since 1.29 is native sidecar support, we can use the native restart policy
-	restartPolicy := corev1.ContainerRestartPolicy("Always")
-
 	return corev1.Container{
 		Name:            consts.ContainerNameMunge,
 		Image:           container.Image,
 		Command:         container.Command,
 		Args:            container.Args,
-		RestartPolicy:   &restartPolicy,
 		ImagePullPolicy: container.ImagePullPolicy,
 		VolumeMounts: []corev1.VolumeMount{
 			RenderVolumeMountMungeKey(),
@@ -93,14 +90,12 @@ func RenderContainerMunge(container *values.Container, opts ...RenderOption) cor
 // RenderPlaceholderContainerMunge renders [corev1.Container] for munge in sleep mode for DaemonSet
 func RenderPlaceholderContainerMunge(container *values.Container) corev1.Container {
 	// Since Kubernetes 1.29 has native sidecar support, we can use the native restart policy
-	restartPolicy := corev1.ContainerRestartPolicy("Always")
 
 	return corev1.Container{
 		Name:            consts.ContainerNameMunge,
 		Image:           container.Image,
 		Command:         []string{"sleep"},
 		Args:            []string{"infinity"},
-		RestartPolicy:   &restartPolicy,
 		ImagePullPolicy: container.ImagePullPolicy,
 		SecurityContext: &corev1.SecurityContext{
 			Capabilities: &corev1.Capabilities{

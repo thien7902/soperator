@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -26,7 +28,7 @@ func RenderPlaceholderDaemonSet(
 
 	labels[consts.LabelControllerType] = consts.LabelControllerTypePlaceholder
 	matchLabels[consts.LabelControllerType] = consts.LabelControllerTypePlaceholder
-
+	fmt.Print("i am here")
 	nodeFilter := utils.MustGetBy(
 		nodeFilters,
 		controller.K8sNodeFilterName,
@@ -57,12 +59,10 @@ func RenderPlaceholderDaemonSet(
 					Affinity:     nodeFilter.Affinity,
 					NodeSelector: nodeFilter.NodeSelector,
 					Tolerations:  nodeFilter.Tolerations,
-					InitContainers: []corev1.Container{
-						common.RenderPlaceholderContainerMunge(&controller.ContainerMunge),
-					},
 					Containers: append(
 						[]corev1.Container{
 							renderContainerSlurmctldSleep(&controller.ContainerSlurmctld),
+							common.RenderPlaceholderContainerMunge(&controller.ContainerMunge),
 						},
 						renderCustomContainersSleep(controller.CustomInitContainers)...,
 					),

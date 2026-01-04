@@ -19,6 +19,7 @@ while [ $attempt -lt $max_attempts ]; do
 	if scontrol_output=$(scontrol ping 2>&1); then
 		echo "Controller is ready!"
 		echo -e "scontrol ping output:\n$scontrol_output"
+		sleep infinity
 		exit 0
 	else
 		echo -e "scontrol ping failed with output:\n$scontrol_output"

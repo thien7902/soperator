@@ -1,4 +1,3 @@
-# syntax=docker.io/docker/dockerfile-upstream:1.20.0
 
 FROM golang:1.24 AS go-base
 

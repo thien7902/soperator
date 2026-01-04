@@ -297,12 +297,15 @@ run: manifests generate fmt vet ## Run a controller from your host with native t
 docker-build-go-base: ## Build go-base multiarch manifest locally
 # Build multiarch
 	docker buildx build \
-		--platform linux/amd64,linux/arm64 \
+		--platform linux/amd64 \
 		--target go-base \
 		-t go-base \
 		-f images/common/go-base.dockerfile \
 		--progress=plain \
+		--network=host \
 		$(DOCKER_BUILD_ARGS) \
+		--no-cache \
+		--load \
 		.
 
 .PHONY: docker-build-and-push
@@ -318,13 +321,14 @@ ifndef UNSTABLE
 endif
 # Build multiarch
 	docker buildx build \
-		--platform linux/amd64,linux/arm64 \
+		--platform linux/amd64 \
 		--target ${IMAGE_NAME} \
 		-t "$(NEBIUS_REPO)-unstable/${IMAGE_NAME}:${IMAGE_VERSION}" \
 		-f images/${DOCKERFILE} \
 		--build-arg SLURM_VERSION="${SLURM_VERSION}" \
 		--progress=plain \
-		--push \
+		--network=host \
+		--load \
 		$(DOCKER_BUILD_ARGS) \
 		.
 ifeq ($(UNSTABLE), false)
