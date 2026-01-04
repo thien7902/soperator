@@ -226,5 +226,5 @@ the software for any purpose, to distribute it, to modify it, and to distribute 
 Please note that various pieces of software it installs in your cluster may have other licenses.
 
 ## Command
-sudo make docker-build-go-base DOCKER_BUILD_ARGS="${DOCKER_BUILD_ARGS}"
+sudo make docker-build-go-base DOCKER_BUILD_ARGS="${DOCKER_BUILD_ARGS}" </br>
 sudo make docker-build-and-push DOCKER_BUILD_ARGS="${DOCKER_BUILD_ARGS}" UNSTABLE="${UNSTABLE}"  IMAGE_NAME=slurm-operator DOCKERFILE=soperator/Dockerfile IMAGE_VERSION="${OPERATOR_IMAGE_TAG}"
