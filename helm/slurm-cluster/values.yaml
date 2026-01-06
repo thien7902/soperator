@@ -160,7 +160,7 @@ plugStackConfig:
 
 slurmNodes:
   accounting:
-    enabled: false
+    enabled: true
     k8sNodeFilterName: "no-gpu"
     slurmConfig:
       accountingStorageTRES: "CPU,Mem,Node,VMem,Gres/gpu"
@@ -218,7 +218,7 @@ slurmNodes:
       # storageParameters:
       #   SSL_CIPHER: ""
     mariadbOperator:
-      enabled: false
+      enabled: true
       protectedSecret: false
       resources:
         cpu: "1000m"
@@ -231,13 +231,15 @@ slurmNodes:
       # probesEnabled: false
       # replica: {}
       # syncBinlog: false
-      storage: {}
-      # ephemeral: false
-      # resizeInUseVolumes: false
-      # size: {}
-      # storageClassName: ""
-      # volumeClaimTemplate: ""
-      # waitForVolumeResize: false
+      storage:
+        ephemeral: false
+        volumeClaimTemplate:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: manual
       podSecurityContext: {}
       # fsGroup: 2000
       # runAsUser: 1000
@@ -316,8 +318,8 @@ slurmNodes:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 50Gi
-          storageClassName: "compute-csi-network-ssd-ext4"
+              storage: 12Gi
+          storageClassName: "premium-ssd-jcncp01"
       jail:
         volumeSourceName: "jail"
       customMounts: []
@@ -329,7 +331,7 @@ slurmNodes:
     enableGDRCopy: false
     priorityClass: ""
     slurmNodeExtra: ""
-    supervisordConfigMapRefName: ""
+    supervisordConfigMapRefName: "custom-supervisord-config"
     sshdConfigMapRefName: ""
     # workerAnnotations: []
     slurmd:
@@ -357,11 +359,11 @@ slurmNodes:
     volumes:
       spool:
         volumeClaimTemplateSpec:
-          storageClassName: "nebius-network-ssd"
+          storageClassName: "manual"
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: "128Gi"
+              storage: "10Gi"
       jail:
         volumeSourceName: "jail"
       jailSubMounts: []

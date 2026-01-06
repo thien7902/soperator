@@ -78,9 +78,7 @@ func BasePodTemplateSpec(
 			NodeSelector:      nodeFilter.NodeSelector,
 			Hostname:          consts.HostnameAccounting,
 			PriorityClassName: accounting.PriorityClass,
-			InitContainers: append(
-				accounting.CustomInitContainers,
-			),
+			InitContainers:    accounting.CustomInitContainers,
 			Containers: []corev1.Container{
 				renderContainerAccounting(accounting.ContainerAccounting, additionalVolumeMounts),
 				common.RenderContainerMunge(&accounting.ContainerMunge),

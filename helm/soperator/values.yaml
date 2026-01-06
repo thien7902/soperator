@@ -31,10 +31,10 @@ controllerManager:
         drop:
           - ALL
     env:
-      isMariadbCrdInstalled: "false"
+      isMariadbCrdInstalled: "true"
       isOpentelemetryCollectorCrdInstalled: "false"
       isApparmorCrdInstalled: "false"
-      isPrometheusCrdInstalled: "false"
+      isPrometheusCrdInstalled: "true"
       slurmOperatorWatchNamespaces: '*'
     image:
       repository: cr.eu-north1.nebius.cloud/soperator/slurm-operator
