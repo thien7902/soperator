@@ -47,6 +47,7 @@ concurrency:
 jobs:
   pre-build:
     runs-on:
+      - ubuntu-latest
       - self-hosted
       - build
 
@@ -93,6 +94,7 @@ jobs:
 
   lint:
     runs-on:
+      - ubuntu-latest
       - self-hosted
       - build
 
@@ -134,6 +136,7 @@ jobs:
 
   build:
     runs-on:
+      - ubuntu-latest
       - self-hosted
       - X64
       - build
